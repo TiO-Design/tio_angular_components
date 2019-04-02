@@ -3,5 +3,5 @@
 <button #source (click)="popupVisible = !popupVisible">{{ popupVisible ? "close" : "open" }}</button>
 
 <tio-popup [(visible)]="popupVisible" [source]="source">
-    <div>Some fancy content that is super duper fancy</div>
+    <div id="popup-content">Some fancy content that is super duper fancy</div>
 </tio-popup>

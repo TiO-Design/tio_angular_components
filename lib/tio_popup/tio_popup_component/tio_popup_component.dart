@@ -1,12 +1,10 @@
 import 'dart:async';
-import 'dart:developer';
 import 'dart:html';
 
 import 'package:angular/angular.dart';
 import 'package:logging/logging.dart';
 import 'package:tio_angular_components/tio_popup/tio_overlay_service.dart';
 import 'package:tio_angular_components/tio_popup/tio_popup_hierarchy.dart';
-import 'package:tio_angular_components/tio_popup/tio_popup_source.dart';
 
 @Component(
     selector: "tio-popup",
@@ -84,7 +82,10 @@ class TioPopupComponent with TioPopupHierarchyElement {
     log.finest("In _initView");
     assert(_viewInitialized == false);
 
-    _popupElement = DivElement()..id = "popup-${_uniqueId++}";
+    _popupElement = DivElement()
+      ..id = "popup-${_uniqueId++}"
+      ..classes.add("pane")
+      ..style.display = "none";
 
     var view = _viewContainer.createEmbeddedView(templateRef);
     view.rootNodes.forEach(((node) => _popupElement.append(node)));
@@ -96,6 +97,7 @@ class TioPopupComponent with TioPopupHierarchyElement {
 
   void _open() {
     log.finest("In _open");
+
     // Avoid duplicate events.
     if (_isOpening) return;
     _isOpening = true;
@@ -107,13 +109,10 @@ class TioPopupComponent with TioPopupHierarchyElement {
       throw StateError('Cannot open popup: no source set.');
     }*/
 
-    _popupElement.style.display =
-    "initial"; // TODO: Change to something different.
+    _popupElement
+      ..style.removeProperty("display");
 
-    // TODO: Just a quick and dirty fix so that the popup does not close instantly after open because of autoDismiss.
-    Future.delayed(Duration(milliseconds: 10), () {
-      attachToVisibleHierarchy();
-    });
+    attachToVisibleHierarchy();
 
     onVisibleController.add(true);
   }
@@ -123,7 +122,7 @@ class TioPopupComponent with TioPopupHierarchyElement {
     if (!_isOpening) return;
     _isOpening = false;
 
-    _popupElement.style.display = "none";
+    _popupElement..style.display = "none";
     detachFromVisibleHierarchy();
 
     onVisibleController.add(false);

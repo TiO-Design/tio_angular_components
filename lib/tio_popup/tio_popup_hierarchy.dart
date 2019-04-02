@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:html';
 
 import 'package:angular_components/utils/browser/events/events.dart' as events;
@@ -49,6 +50,7 @@ class TioPopupHierarchy {
 
     for (int i = _visiblePopupsStack.length - 1; i >= 0; i--) {
       final current = _visiblePopupsStack[i];
+      print("current: ${current.popupElement.id}, target: ${event.target}");
       if (events.isParentOf(current.popupElement, event.target)) return;
 
       for (var blockerElement in current.autoDismissBlockers) {
