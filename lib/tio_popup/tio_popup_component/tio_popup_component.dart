@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 import 'dart:html';
 
@@ -35,6 +36,8 @@ class TioPopupComponent with TioPopupHierarchyElement {
   // calls to [_close] should be a no-op.
   bool _isOpening = false;
 
+  final onVisibleController = StreamController<bool>();
+
   // -----
   // Constructors
   // -----
@@ -58,10 +61,17 @@ class TioPopupComponent with TioPopupHierarchyElement {
   }
 
   @Input()
-  TioPopupSource source;
+  Element source;
 
   @Input()
   bool autoDismiss = true;
+
+  // -----
+  // Outputs
+  // -----
+
+  @Output("visibleChange")
+  Stream<bool> get onVisible => onVisibleController.stream;
 
   // -----
   // View children
@@ -104,6 +114,8 @@ class TioPopupComponent with TioPopupHierarchyElement {
     Future.delayed(Duration(milliseconds: 10), () {
       attachToVisibleHierarchy();
     });
+
+    onVisibleController.add(true);
   }
 
   void _close() {
@@ -113,6 +125,8 @@ class TioPopupComponent with TioPopupHierarchyElement {
 
     _popupElement.style.display = "none";
     detachFromVisibleHierarchy();
+
+    onVisibleController.add(false);
   }
 
   // -----
@@ -127,6 +141,9 @@ class TioPopupComponent with TioPopupHierarchyElement {
 
   @override
   HtmlElement get popupElement => _popupElement;
+
+  @override
+  List<Element> get autoDismissBlockers => [source];
 
   @override
   void onDismiss() {

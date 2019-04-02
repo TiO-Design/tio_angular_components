@@ -20,10 +20,6 @@ import 'package:tio_angular_components/tio_popup/tio_popup_hierarchy.dart';
 class AppComponent implements OnInit {
   var popupVisible = false;
 
-  void handleClick() {
-    popupVisible = !popupVisible;
-  }
-
   @override
   void ngOnInit() {
     Logger.root.level = Level.ALL;

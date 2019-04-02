@@ -51,6 +51,10 @@ class TioPopupHierarchy {
       final current = _visiblePopupsStack[i];
       if (events.isParentOf(current.popupElement, event.target)) return;
 
+      for (var blockerElement in current.autoDismissBlockers) {
+        if (events.isParentOf(blockerElement, event.target)) return;
+      }
+
       if (current.shouldAutoDismiss) current.onAutoDismiss(event);
     }
   }
@@ -74,6 +78,8 @@ abstract class TioPopupHierarchyElement {
   final log = Logger("${TioPopupHierarchyElement}");
 
   TioPopupHierarchy get hierarchy;
+
+  List<Element> get autoDismissBlockers;
 
   bool get shouldAutoDismiss;
 
