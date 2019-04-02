@@ -1,4 +1,5 @@
 import 'package:angular/angular.dart';
+import 'package:logging/logging.dart';
 
 import 'package:tio_angular_components/tio_angular_components.dart';
 import 'package:tio_angular_components/tio_popup/tio_overlay_service.dart';
@@ -16,10 +17,17 @@ import 'package:tio_angular_components/tio_popup/tio_popup_hierarchy.dart';
       ClassProvider(TioOverlayService),
       ClassProvider(TioPopupHierarchy)
     ])
-class AppComponent {
+class AppComponent implements OnInit {
   var popupVisible = false;
 
   void handleClick() {
     popupVisible = !popupVisible;
+  }
+
+  @override
+  void ngOnInit() {
+    Logger.root.level = Level.ALL;
+    Logger.root.onRecord.listen((record) =>
+        print("[${record.time}] ${record.loggerName}: ${record.message}"));
   }
 }

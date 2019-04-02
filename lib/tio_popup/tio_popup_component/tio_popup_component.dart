@@ -1,6 +1,8 @@
+import 'dart:developer';
 import 'dart:html';
 
 import 'package:angular/angular.dart';
+import 'package:logging/logging.dart';
 import 'package:tio_angular_components/tio_popup/tio_overlay_service.dart';
 import 'package:tio_angular_components/tio_popup/tio_popup_hierarchy.dart';
 import 'package:tio_angular_components/tio_popup/tio_popup_source.dart';
@@ -10,6 +12,8 @@ import 'package:tio_angular_components/tio_popup/tio_popup_source.dart';
     templateUrl: "tio_popup_component.html",
     styleUrls: ["tio_popup_component.css"])
 class TioPopupComponent with TioPopupHierarchyElement {
+  final log = Logger("${TioPopupComponent}");
+
   final TioOverlayService _overlayService;
   final TioPopupHierarchy _hierarchy;
 
@@ -46,8 +50,8 @@ class TioPopupComponent with TioPopupHierarchyElement {
     if (visible) {
       if (!_viewInitialized) {
         _initView();
-        _open();
       }
+      _open();
     } else if (_viewInitialized) {
       _close();
     }
@@ -67,6 +71,7 @@ class TioPopupComponent with TioPopupHierarchyElement {
   TemplateRef templateRef;
 
   void _initView() {
+    log.finest("In _initView");
     assert(_viewInitialized == false);
 
     _popupElement = DivElement()..id = "popup-${_uniqueId++}";
@@ -80,7 +85,7 @@ class TioPopupComponent with TioPopupHierarchyElement {
   }
 
   void _open() {
-    print("in _open");
+    log.finest("In _open");
     // Avoid duplicate events.
     if (_isOpening) return;
     _isOpening = true;
@@ -92,14 +97,17 @@ class TioPopupComponent with TioPopupHierarchyElement {
       throw StateError('Cannot open popup: no source set.');
     }*/
 
-    // TODO: Does not open when commented out :O
+    _popupElement.style.display =
+    "initial"; // TODO: Change to something different.
 
-    _popupElement.style.display = "visible";
-    attachToVisibleHierarchy();
+    // TODO: Just a quick and dirty fix so that the popup does not close instantly after open because of autoDismiss.
+    Future.delayed(Duration(milliseconds: 10), () {
+      attachToVisibleHierarchy();
+    });
   }
 
   void _close() {
-    print("in_close");
+    log.finest("In _close");
     if (!_isOpening) return;
     _isOpening = false;
 
@@ -121,5 +129,8 @@ class TioPopupComponent with TioPopupHierarchyElement {
   HtmlElement get popupElement => _popupElement;
 
   @override
-  void onDismiss() => _close();
+  void onDismiss() {
+    log.finest("In onDismiss");
+    _close();
+  }
 }
