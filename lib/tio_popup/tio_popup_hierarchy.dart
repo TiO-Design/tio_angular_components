@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 import 'dart:html';
 
 import 'package:angular_components/utils/browser/events/events.dart' as events;
