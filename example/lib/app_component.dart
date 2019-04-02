@@ -1,16 +1,25 @@
 import 'package:angular/angular.dart';
 
-import 'src/todo_list/todo_list_component.dart';
+import 'package:tio_angular_components/tio_angular_components.dart';
+import 'package:tio_angular_components/tio_popup/tio_overlay_service.dart';
+import 'package:tio_angular_components/tio_popup/tio_popup_hierarchy.dart';
 
 // AngularDart info: https://webdev.dartlang.org/angular
 // Components info: https://webdev.dartlang.org/components
 
 @Component(
-  selector: 'my-app',
-  styleUrls: ['app_component.css'],
-  templateUrl: 'app_component.html',
-  directives: [TodoListComponent],
-)
+    selector: 'my-app',
+    styleUrls: ['app_component.css'],
+    templateUrl: 'app_component.html',
+    directives: [TioPopupComponent],
+    providers: [
+      ClassProvider(TioOverlayService),
+      ClassProvider(TioPopupHierarchy)
+    ])
 class AppComponent {
-  // Nothing here yet. All logic is in TodoListComponent.
+  var popupVisible = false;
+
+  void handleClick() {
+    popupVisible = !popupVisible;
+  }
 }

@@ -1,3 +1,7 @@
 <h1>My First AngularDart App</h1>
 
-<todo-list></todo-list>
+<button (click)="handleClick()">{{ popupVisible ? "close" : "open" }}</button>
+
+<tio-popup [visible]="popupVisible">
+    <div>Some fancy content that is super duper fancy</div>
+</tio-popup>

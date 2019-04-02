@@ -3,4 +3,4 @@
 /// More dartdocs go here.
 library tio_angular_components;
 
-// TODO: Export any libraries intended for clients of this package.
+export 'tio_popup/tio_popup_component/tio_popup_component.dart';

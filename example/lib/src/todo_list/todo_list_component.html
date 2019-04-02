@@ -1,4 +1,26 @@
 <!-- Components info: https://webdev.dartlang.org/components -->
+<h1>Material Popup</h1>
+<section>
+    <div class="card">
+        <h2>Basic Usage</h2>
+        <div>
+            <material-button
+                    raised
+                    popupSource
+                    #source="popupSource"
+                    (trigger)="popupVisible = !popupVisible">
+                {{popupVisible ? 'Close' : 'Open'}} Popup
+            </material-button>
+            <material-popup [source]="source" [(visible)]="popupVisible">
+                <div style="height: 200px;">
+                    Hello, Hello, Hello.
+                </div>
+            </material-popup>
+        </div>
+    </div>
+</section>
+
+
 <div>
     <material-input (keyup.enter)="add()"
                     [(ngModel)]="newTodo" autoFocus floatingLabel
@@ -11,11 +33,6 @@
                   raised>
         <material-icon icon="add"></material-icon>
     </material-fab>
-    <material-popup>
-        <div style="height: 200px;">
-            hello hello hello
-        </div>
-    </material-popup>
 </div>
 
 <p *ngIf="items.isEmpty">
