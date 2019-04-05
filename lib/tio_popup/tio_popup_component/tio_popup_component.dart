@@ -3,6 +3,7 @@ import 'dart:html';
 
 import 'package:angular/angular.dart';
 import 'package:logging/logging.dart';
+import 'package:tio_angular_components/tio_popup/alignment.dart';
 import 'package:tio_angular_components/tio_popup/tio_overlay_service.dart';
 import 'package:tio_angular_components/tio_popup/tio_popup_hierarchy.dart';
 import 'package:tio_angular_components/tio_popup/tio_popup_source.dart';
@@ -54,6 +55,12 @@ class TioPopupComponent with TioPopupHierarchyElement {
   @Input()
   bool autoDismiss = true;
 
+  @Input()
+  bool constrainToViewPort = true;
+
+  @Input()
+  RelativePosition preferredPosition;
+
   // -----
   // Outputs
   // -----
@@ -101,8 +108,15 @@ class TioPopupComponent with TioPopupHierarchyElement {
 
     _popupElement
       ..style.removeProperty("display")
-      ..style.top = "${source.dimensions.top + source.dimensions.height}px"
-      ..style.left = "${source.dimensions.left + source.dimensions.width}px";
+      ..style.visibility = "hidden";
+
+    Point<num> popupPosition = preferredPosition.align(
+        source.dimensions, _popupElement.getBoundingClientRect());
+
+    _popupElement
+      ..style.visibility = "visible"
+      ..style.top = "${popupPosition.y}px"
+      ..style.left = "${popupPosition.x}px";
 
     attachToVisibleHierarchy();
 
@@ -149,3 +163,5 @@ class TioPopupComponent with TioPopupHierarchyElement {
     _close();
   }
 }
+
+enum PreferredPosition { topLeft, topRight, bottomLeft, bottomRight }

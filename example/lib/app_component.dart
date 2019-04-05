@@ -2,6 +2,7 @@ import 'package:angular/angular.dart';
 import 'package:logging/logging.dart';
 
 import 'package:tio_angular_components/tio_angular_components.dart';
+import 'package:tio_angular_components/tio_popup/alignment.dart';
 import 'package:tio_angular_components/tio_popup/tio_overlay_service.dart';
 import 'package:tio_angular_components/tio_popup/tio_popup_hierarchy.dart';
 import 'package:tio_angular_components/tio_popup/tio_popup_source.dart';
@@ -17,7 +18,8 @@ import 'package:tio_angular_components/tio_popup/tio_popup_source.dart';
     providers: [
       ClassProvider(TioOverlayService),
       ClassProvider(TioPopupHierarchy)
-    ])
+    ],
+    exports: [RelativePosition])
 class AppComponent implements OnInit {
   var popup1Visible = false;
   var popup2Visible = false;
