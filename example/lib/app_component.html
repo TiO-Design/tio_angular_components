@@ -8,7 +8,8 @@
 </button>
 
 
-<tio-popup [(visible)]="popup1Visible" [source]="source1" [preferredPositions]="RelativePosition.adjacentInline">
+<tio-popup [(visible)]="popup1Visible" [source]="source1" [preferredPositions]="RelativePosition.adjacentInline"
+           [constrainToViewPort]="false">
     <div class="popup-content">Some fancy content that is super duper fancy</div>
 </tio-popup>
 

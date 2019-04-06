@@ -123,19 +123,10 @@ class TioPopupComponent with TioPopupHierarchyElement {
       ..style.removeProperty("display")
       ..style.visibility = "hidden";
 
-    final popupPosition = _calcBestPosition(
-        container: _viewportRect,
-        content: _popupElement.getBoundingClientRect(),
-        relativePositions: preferredPositions,
-        source: source.dimensions);
-
-    final alignedPosition = popupPosition.alignRectangle(
-        source.dimensions, _popupElement.getBoundingClientRect());
+    _reposition();
 
     _popupElement
-      ..style.visibility = "visible"
-      ..style.top = "${alignedPosition.top}px"
-      ..style.left = "${alignedPosition.left}px";
+      ..style.visibility = "visible";
 
     attachToVisibleHierarchy();
 
@@ -196,6 +187,27 @@ class TioPopupComponent with TioPopupHierarchyElement {
       });
     });
   }
+
+  void _reposition() {
+    final popupPosition = _calcBestPosition(
+        container: _viewportRect,
+        content: _popupElement.getBoundingClientRect(),
+        relativePositions: preferredPositions,
+        source: source.dimensions);
+
+    final alignedPopupRect = popupPosition.alignRectangle(
+        source.dimensions, _popupElement.getBoundingClientRect());
+
+    var popupRect = alignedPopupRect;
+
+    if (constrainToViewPort) {
+      popupRect = _shiftRectangleToFitWithin(alignedPopupRect, _viewportRect);
+    }
+
+    _popupElement
+      ..style.top = "${popupRect.top}px"
+      ..style.left = "${popupRect.left}px";
+  }
 }
 
 RelativePosition _calcBestPosition({@required Rectangle<num> container,
@@ -223,4 +235,27 @@ RelativePosition _calcBestPosition({@required Rectangle<num> container,
   }
 
   return bestPosition;
+}
+
+/// Returns a new [Rectangle] with the same dimensions as [rect] that got
+/// repositioned to fit into [container] entirely.
+///
+/// If [rect] is larger than the container, this function will prefer to keep
+/// the top left corner visible.
+///
+Rectangle<num> _shiftRectangleToFitWithin(Rectangle<num> rect,
+    Rectangle<num> container) {
+  num left = rect.left;
+  num top = rect.top;
+  if (rect.left < container.left) {
+    left = container.left;
+  } else if (rect.right > container.right) {
+    left = container.right - rect.width;
+  }
+  if (rect.top < container.top) {
+    top = container.top;
+  } else if (rect.bottom > container.bottom) {
+    top = container.bottom - rect.height;
+  }
+  return Rectangle(left.round(), top.round(), rect.width, rect.height);
 }
