@@ -3,70 +3,56 @@ import 'dart:math';
 import 'package:meta/meta.dart';
 
 abstract class Alignment {
-  num calcLeft(Rectangle<num> source, Rectangle<num> content);
-
-  num calcTop(Rectangle<num> source, Rectangle<num> content);
+  double align(Edge<num> source, Edge<num> content);
 }
 
 class AlignmentEnd implements Alignment {
   const AlignmentEnd();
 
   @override
-  num calcLeft(Rectangle<num> source, Rectangle<num> content) =>
-      source.left + source.width - content.width;
-
-  @override
-  num calcTop(Rectangle<num> source, Rectangle<num> content) =>
-      source.top + source.height - content.height;
+  double align(Edge<num> source, Edge<num> content) =>
+      source.point + source.length - content.length;
 }
 
 class AlignmentStart implements Alignment {
   const AlignmentStart();
 
   @override
-  num calcLeft(Rectangle<num> source, Rectangle<num> content) => source.left;
-
-  @override
-  num calcTop(Rectangle<num> source, Rectangle<num> content) => source.top;
+  double align(Edge<num> source, Edge<num> content) => source.point;
 }
 
 class AlignmentCenter implements Alignment {
   const AlignmentCenter();
 
   @override
-  num calcLeft(Rectangle<num> source, Rectangle<num> content) =>
-      source.left + (source.width / 2) - (content.width / 2);
-
-  @override
-  num calcTop(Rectangle<num> source, Rectangle<num> content) =>
-      source.top + (source.height / 2) - (content.height / 2);
+  double align(Edge<num> source, Edge<num> content) =>
+      source.point + (source.length / 2) - (content.length / 2);
 }
 
 class AlignmentBefore implements Alignment {
   const AlignmentBefore();
 
   @override
-  num calcLeft(Rectangle<num> source, Rectangle<num> content) =>
-      source.left - content.width;
-
-  @override
-  num calcTop(Rectangle<num> source, Rectangle<num> content) =>
-      source.top - content.height;
+  double align(Edge<num> source, Edge<num> content) =>
+      source.point - content.length;
 }
 
 class AlignmentAfter implements Alignment {
   const AlignmentAfter();
 
   @override
-  num calcLeft(Rectangle<num> source, Rectangle<num> content) =>
-      source.left + source.width;
-
-  @override
-  num calcTop(Rectangle<num> source, Rectangle<num> content) =>
-      source.top + source.height;
+  double align(Edge<num> source, Edge<num> content) =>
+      source.point + source.length;
 }
 
 class RelativePosition {
+  static const adjacentInline = [
+    adjacentRightTop,
+    adjacentLeftTop,
+    adjacentRightBottom,
+    adjacentRightTop
+  ];
+
   static const adjacentLeftTop = RelativePosition(
       xAlignment: AlignmentBefore(), yAlignment: AlignmentStart());
 
@@ -79,13 +65,31 @@ class RelativePosition {
   static const adjacentRightBottom = RelativePosition(
       xAlignment: AlignmentAfter(), yAlignment: AlignmentEnd());
 
-  Point<num> align(Rectangle<num> source, Rectangle<num> content) => Point<num>(
-      this.xAlignment.calcLeft(source, content),
-      this.yAlignment.calcTop(source, content));
+  Rectangle<num> alignRectangle(Rectangle<num> source,
+      Rectangle<num> content) =>
+      Rectangle(
+          this.xAlignment.align(
+              Edge.topFromRectangle(source), Edge.topFromRectangle(content)),
+          this.yAlignment.align(
+              Edge.leftFromRectangle(source), Edge.leftFromRectangle(content)),
+          content.width,
+          content.height);
 
   final Alignment xAlignment;
   final Alignment yAlignment;
 
-  const RelativePosition(
-      {@required this.xAlignment, @required this.yAlignment});
+  const RelativePosition({@required this.xAlignment, @required this.yAlignment});
+}
+
+class Edge<T extends num> {
+  final T point;
+  final T length;
+
+  Edge({@required this.point, @required this.length});
+
+  factory Edge.leftFromRectangle(Rectangle<T> rectangle) =>
+      Edge<T>(point: rectangle.top, length: rectangle.height);
+
+  factory Edge.topFromRectangle(Rectangle<T> rectangle) =>
+      Edge<T>(point: rectangle.left, length: rectangle.width);
 }

@@ -8,18 +8,18 @@
 </button>
 
 
-<tio-popup [(visible)]="popup1Visible" [source]="source1" [preferredPosition]="RelativePosition.adjacentLeftTop">
+<tio-popup [(visible)]="popup1Visible" [source]="source1" [preferredPositions]="RelativePosition.adjacentInline">
     <div class="popup-content">Some fancy content that is super duper fancy</div>
 </tio-popup>
 
-<tio-popup [(visible)]="popup2Visible" [source]="source2" [preferredPosition]="RelativePosition.adjacentRightTop">
+<tio-popup [(visible)]="popup2Visible" [source]="source2" [preferredPositions]="RelativePosition.adjacentInline">
     <div class="popup-content">
         Popup with another popup
         <button popup-source #source3="popup-source" (click)="popup3Visible = !popup3Visible">{{ popup3Visible ? "close"
             : "open" }}
         </button>
         <tio-popup [(visible)]="popup3Visible" [source]="source3"
-                   [preferredPosition]="RelativePosition.adjacentLeftTop">
+                   [preferredPositions]="RelativePosition.adjacentInline">
             <div class="popup-content">Another popup</div>
         </tio-popup>
     </div>
