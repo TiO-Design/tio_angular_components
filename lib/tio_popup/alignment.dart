@@ -3,14 +3,14 @@ import 'dart:math';
 import 'package:meta/meta.dart';
 
 abstract class Alignment {
-  double align(Edge<num> source, Edge<num> content);
+  double align(Side<num> source, Side<num> content);
 }
 
 class AlignmentEnd implements Alignment {
   const AlignmentEnd();
 
   @override
-  double align(Edge<num> source, Edge<num> content) =>
+  double align(Side<num> source, Side<num> content) =>
       source.point + source.length - content.length;
 }
 
@@ -18,14 +18,14 @@ class AlignmentStart implements Alignment {
   const AlignmentStart();
 
   @override
-  double align(Edge<num> source, Edge<num> content) => source.point;
+  double align(Side<num> source, Side<num> content) => source.point;
 }
 
 class AlignmentCenter implements Alignment {
   const AlignmentCenter();
 
   @override
-  double align(Edge<num> source, Edge<num> content) =>
+  double align(Side<num> source, Side<num> content) =>
       source.point + (source.length / 2) - (content.length / 2);
 }
 
@@ -33,7 +33,7 @@ class AlignmentBefore implements Alignment {
   const AlignmentBefore();
 
   @override
-  double align(Edge<num> source, Edge<num> content) =>
+  double align(Side<num> source, Side<num> content) =>
       source.point - content.length;
 }
 
@@ -41,7 +41,7 @@ class AlignmentAfter implements Alignment {
   const AlignmentAfter();
 
   @override
-  double align(Edge<num> source, Edge<num> content) =>
+  double align(Side<num> source, Side<num> content) =>
       source.point + source.length;
 }
 
@@ -69,9 +69,9 @@ class RelativePosition {
       Rectangle<num> content) =>
       Rectangle(
           this.xAlignment.align(
-              Edge.topFromRectangle(source), Edge.topFromRectangle(content)),
+              Side.topFromRectangle(source), Side.topFromRectangle(content)),
           this.yAlignment.align(
-              Edge.leftFromRectangle(source), Edge.leftFromRectangle(content)),
+              Side.leftFromRectangle(source), Side.leftFromRectangle(content)),
           content.width,
           content.height);
 
@@ -81,15 +81,16 @@ class RelativePosition {
   const RelativePosition({@required this.xAlignment, @required this.yAlignment});
 }
 
-class Edge<T extends num> {
+@immutable
+class Side<T extends num> {
   final T point;
   final T length;
 
-  Edge({@required this.point, @required this.length});
+  Side({@required this.point, @required this.length});
 
-  factory Edge.leftFromRectangle(Rectangle<T> rectangle) =>
-      Edge<T>(point: rectangle.top, length: rectangle.height);
+  factory Side.leftFromRectangle(Rectangle<T> rectangle) =>
+      Side<T>(point: rectangle.top, length: rectangle.height);
 
-  factory Edge.topFromRectangle(Rectangle<T> rectangle) =>
-      Edge<T>(point: rectangle.left, length: rectangle.width);
+  factory Side.topFromRectangle(Rectangle<T> rectangle) =>
+      Side<T>(point: rectangle.left, length: rectangle.width);
 }
