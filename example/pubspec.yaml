@@ -9,7 +9,6 @@ environment:
 
 dependencies:
   angular: ^5.2.0
-  angular_components: ^0.11.0
   tio_angular_components:
     path: ..
 
