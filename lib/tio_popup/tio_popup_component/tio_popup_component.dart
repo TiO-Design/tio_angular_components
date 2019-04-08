@@ -32,7 +32,6 @@ class TioPopupComponent with TioPopupHierarchyElement {
   final NgZone _ngZone;
   HtmlElement _popupElement;
   bool _viewInitialized = false;
-  int _uniqueId = 0;
   bool _isOpening = false;
 
   final onVisibleController = StreamController<bool>();
@@ -94,7 +93,6 @@ class TioPopupComponent with TioPopupHierarchyElement {
     assert(_viewInitialized == false);
 
     _popupElement = DivElement()
-      ..id = "popup-${_uniqueId++}"
       ..classes.add("pane")
       ..style.display = "none";
 
