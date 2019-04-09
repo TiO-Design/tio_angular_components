@@ -13,7 +13,7 @@ class TioOverlayService {
 
   TioOverlayService()
       : _overlayContainerElement = DivElement()
-    ..classes.add("overlay-container") {
+          ..classes.add("overlay-container") {
     final headElement = document.querySelector("head");
     final bodyElement = document.querySelector("body");
 

@@ -65,8 +65,8 @@ class RelativePosition {
   static const adjacentRightBottom = RelativePosition(
       xAlignment: AlignmentAfter(), yAlignment: AlignmentEnd());
 
-  Rectangle<num> alignRectangle(Rectangle<num> source,
-      Rectangle<num> content) =>
+  Rectangle<num> alignRectangle(
+          Rectangle<num> source, Rectangle<num> content) =>
       Rectangle(
           this.xAlignment.align(
               Side.topFromRectangle(source), Side.topFromRectangle(content)),
@@ -78,7 +78,8 @@ class RelativePosition {
   final Alignment xAlignment;
   final Alignment yAlignment;
 
-  const RelativePosition({@required this.xAlignment, @required this.yAlignment});
+  const RelativePosition(
+      {@required this.xAlignment, @required this.yAlignment});
 }
 
 @immutable
