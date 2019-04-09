@@ -55,10 +55,10 @@ class TioPopupHierarchy {
 
     for (int i = _visiblePopupsStack.length - 1; i >= 0; i--) {
       final current = _visiblePopupsStack[i];
-      if (events.isParentOf(current.popupElement, event.target)) return;
+      if (events.isParentOf(current.popupElement, event.target as Node)) return;
 
       for (var blockerElement in current.autoDismissBlockers) {
-        if (events.isParentOf(blockerElement, event.target)) return;
+        if (events.isParentOf(blockerElement, event.target as Node)) return;
       }
 
       if (current.shouldAutoDismiss) current.onAutoDismiss(event);
@@ -72,7 +72,7 @@ class TioPopupHierarchy {
       for (int i = _visiblePopupsStack.length - 1; i >= 0; i--) {
         final current = _visiblePopupsStack[i];
 
-        if (events.isParentOf(current.popupElement, event.target)) {
+        if (events.isParentOf(current.popupElement, event.target as Node)) {
           current.onDismiss();
         }
       }

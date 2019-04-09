@@ -4,21 +4,24 @@ import 'package:angular/di.dart';
 import 'package:tio_angular_components/tio_popup/tio_popup_hierarchy.dart';
 
 const overlayProviders = [
-  ClassProvider(TioOverlayService),
-  ClassProvider(TioPopupHierarchy)
+  ClassProvider<TioOverlayService>(TioOverlayService),
+  ClassProvider<TioPopupHierarchy>(TioPopupHierarchy),
+  ValueProvider.forToken(overlayContainerIdToken, "overlay-container")
 ];
+
+const overlayContainerIdToken = OpaqueToken<String>("overlayContainerId");
 
 class TioOverlayService {
   final HtmlElement _overlayContainerElement;
+  final String _overlayContainerId;
 
-  TioOverlayService()
-      : _overlayContainerElement = DivElement()
-          ..classes.add("overlay-container") {
+  TioOverlayService(@Inject(overlayContainerIdToken) this._overlayContainerId)
+      : _overlayContainerElement = DivElement()..id = _overlayContainerId {
     final headElement = document.querySelector("head");
     final bodyElement = document.querySelector("body");
 
     final overlayContainerStyle = StyleElement()
-      ..text = '''.overlay-container {
+      ..text = '''#$_overlayContainerId {
                   position: absolute;
                   top: 0;
                   left: 0;
@@ -28,7 +31,7 @@ class TioOverlayService {
                   z-index: 1000000;
                }
                
-               .overlay-container > .pane {
+               #$_overlayContainerId > .pane {
                   pointer-events: auto;
                   position: absolute;
                }

@@ -26,7 +26,7 @@ import 'todo_list_service.dart';
     NgFor,
     NgIf,
   ],
-  providers: [ClassProvider(TodoListService), popupBindings],
+  providers: <Object>[ClassProvider<TodoListService>(TodoListService), popupBindings],
 )
 class TodoListComponent implements OnInit {
   var popupVisible = false;
