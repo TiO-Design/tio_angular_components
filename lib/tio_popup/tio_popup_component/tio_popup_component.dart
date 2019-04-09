@@ -31,6 +31,8 @@ class TioPopupComponent with TioPopupHierarchyElement {
   final ViewContainerRef _viewContainer;
   final NgZone _ngZone;
   HtmlElement _popupElement;
+  Element _positionedElement;
+  Element _backgroundElement;
   bool _viewInitialized = false;
   bool _isOpening = false;
 
@@ -84,20 +86,38 @@ class TioPopupComponent with TioPopupHierarchyElement {
   // View children
   // -----
 
-  @ViewChild("template")
-  TemplateRef templateRef;
+  @ViewChild("background")
+  TemplateRef backgroundRef;
+
+  @ViewChild("positioned")
+  TemplateRef positionedRef;
 
   void _initView() {
     log.finest("In _initView");
 
     assert(_viewInitialized == false);
 
+    _positionedElement = DivElement()
+      ..style.position = "absolute"
+      ..style.zIndex = 2.toString();
+
+    _backgroundElement = DivElement()
+      ..style.position = "relative"
+      ..style.zIndex = 1.toString()
+      ..style.pointerEvents = "none";
+
     _popupElement = DivElement()
       ..classes.add("pane")
       ..style.display = "none";
 
-    var view = _viewContainer.createEmbeddedView(templateRef);
-    view.rootNodes.forEach(((node) => _popupElement.append(node)));
+    final positionedView = _viewContainer.createEmbeddedView(positionedRef);
+    positionedView.rootNodes.forEach((node) => _positionedElement.append(node));
+
+    final backgroundView = _viewContainer.createEmbeddedView(backgroundRef);
+    backgroundView.rootNodes.forEach((node) => _backgroundElement.append(node));
+
+    _popupElement.append(_positionedElement);
+    _popupElement.append(_backgroundElement);
 
     _overlayService.register(_popupElement);
 
@@ -123,8 +143,7 @@ class TioPopupComponent with TioPopupHierarchyElement {
 
     _reposition();
 
-    _popupElement
-      ..style.visibility = "visible";
+    _popupElement..style.visibility = "visible";
 
     attachToVisibleHierarchy();
 
@@ -189,12 +208,12 @@ class TioPopupComponent with TioPopupHierarchyElement {
   void _reposition() {
     final popupPosition = _calcBestPosition(
         container: _viewportRect,
-        content: _popupElement.getBoundingClientRect(),
+        content: _positionedElement.getBoundingClientRect(),
         relativePositions: preferredPositions,
         source: source.dimensions);
 
     final alignedPopupRect = popupPosition.alignRectangle(
-        source.dimensions, _popupElement.getBoundingClientRect());
+        source.dimensions, _positionedElement.getBoundingClientRect());
 
     var popupRect = alignedPopupRect;
 
@@ -202,18 +221,19 @@ class TioPopupComponent with TioPopupHierarchyElement {
       popupRect = _shiftRectangleToFitWithin(alignedPopupRect, _viewportRect);
     }
 
-    _popupElement
+    _positionedElement
       ..style.top = "${popupRect.top}px"
       ..style.left = "${popupRect.left}px";
   }
 }
 
-RelativePosition _calcBestPosition({@required Rectangle<num> container,
-  @required Rectangle<num> source,
-  @required Rectangle<num> content,
-  @required List<RelativePosition> relativePositions}) {
+RelativePosition _calcBestPosition(
+    {@required Rectangle<num> container,
+    @required Rectangle<num> source,
+    @required Rectangle<num> content,
+    @required List<RelativePosition> relativePositions}) {
   assert(relativePositions != null && relativePositions.isNotEmpty,
-  "No relative positions provided.");
+      "No relative positions provided.");
 
   var bestPosition = relativePositions.first;
   double bestOverlap = 0.0;
@@ -241,8 +261,8 @@ RelativePosition _calcBestPosition({@required Rectangle<num> container,
 /// If [rect] is larger than the container, this function will prefer to keep
 /// the top left corner visible.
 ///
-Rectangle<num> _shiftRectangleToFitWithin(Rectangle<num> rect,
-    Rectangle<num> container) {
+Rectangle<num> _shiftRectangleToFitWithin(
+    Rectangle<num> rect, Rectangle<num> container) {
   num left = rect.left;
   num top = rect.top;
   if (rect.left < container.left) {
