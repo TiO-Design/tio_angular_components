@@ -227,7 +227,7 @@ RelativePosition _calcBestPosition({@required Rectangle<num> container,
     final overlapArea = overlapRect.width * overlapRect.height;
 
     if (overlapArea > bestOverlap) {
-      bestOverlap = overlapArea;
+      bestOverlap = overlapArea.toDouble();
       bestPosition = relativePosition;
     }
   }

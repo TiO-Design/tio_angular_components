@@ -4,8 +4,8 @@ import 'package:angular/di.dart';
 import 'package:tio_angular_components/tio_popup/tio_popup_hierarchy.dart';
 
 const overlayProviders = [
-  ClassProvider(TioOverlayService),
-  ClassProvider(TioPopupHierarchy)
+  ClassProvider<TioOverlayService>(TioOverlayService),
+  ClassProvider<TioPopupHierarchy>(TioPopupHierarchy)
 ];
 
 class TioOverlayService {

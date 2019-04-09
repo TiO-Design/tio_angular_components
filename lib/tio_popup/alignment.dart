@@ -11,14 +11,14 @@ class AlignmentEnd implements Alignment {
 
   @override
   double align(Side<num> source, Side<num> content) =>
-      source.point + source.length - content.length;
+      (source.point + source.length - content.length).toDouble();
 }
 
 class AlignmentStart implements Alignment {
   const AlignmentStart();
 
   @override
-  double align(Side<num> source, Side<num> content) => source.point;
+  double align(Side<num> source, Side<num> content) => source.point.toDouble();
 }
 
 class AlignmentCenter implements Alignment {
@@ -26,7 +26,7 @@ class AlignmentCenter implements Alignment {
 
   @override
   double align(Side<num> source, Side<num> content) =>
-      source.point + (source.length / 2) - (content.length / 2);
+      (source.point + (source.length / 2) - (content.length / 2)).toDouble();
 }
 
 class AlignmentBefore implements Alignment {
@@ -34,7 +34,7 @@ class AlignmentBefore implements Alignment {
 
   @override
   double align(Side<num> source, Side<num> content) =>
-      source.point - content.length;
+      (source.point - content.length).toDouble();
 }
 
 class AlignmentAfter implements Alignment {
@@ -42,7 +42,7 @@ class AlignmentAfter implements Alignment {
 
   @override
   double align(Side<num> source, Side<num> content) =>
-      source.point + source.length;
+      (source.point + source.length).toDouble();
 }
 
 class RelativePosition {
