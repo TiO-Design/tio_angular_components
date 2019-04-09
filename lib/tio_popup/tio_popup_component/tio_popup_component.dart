@@ -15,11 +15,11 @@ import 'package:tio_angular_components/tio_popup/tio_popup_source.dart';
     templateUrl: "tio_popup_component.html",
     styleUrls: ["tio_popup_component.css"])
 class TioPopupComponent with TioPopupHierarchyElement {
-  // The last known size of the viewport.
-  //
-  // The top/left of this [Rectangle] is always (0, 0). A Rectangle returned by
-  // getBoundingClientRect() will be positioned relative to this point (i.e.
-  // will be in the viewport vector space).
+  /// The last known size of the viewport.
+  ///
+  /// The top/left of this [Rectangle] is always (0, 0). A Rectangle returned by
+  /// getBoundingClientRect() will be positioned relative to this point (i.e.
+  /// will be in the viewport vector space).
   static MutableRectangle _viewportRect;
 
   final log = Logger("${TioPopupComponent}");
@@ -227,7 +227,7 @@ RelativePosition _calcBestPosition({@required Rectangle<num> container,
     final overlapArea = overlapRect.width * overlapRect.height;
 
     if (overlapArea > bestOverlap) {
-      bestOverlap = overlapArea;
+      bestOverlap = overlapArea.toDouble();
       bestPosition = relativePosition;
     }
   }

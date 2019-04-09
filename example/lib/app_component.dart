@@ -11,7 +11,7 @@ import 'package:tio_angular_components/tio_popup/tio_popup_source.dart';
     styleUrls: ['app_component.css'],
     templateUrl: 'app_component.html',
     directives: [TioPopupComponent, PopupSourceDirective],
-    providers: [overlayProviders],
+    providers: <Object>[overlayProviders],
     exports: [RelativePosition])
 class AppComponent implements OnInit {
   var popup1Visible = false;
