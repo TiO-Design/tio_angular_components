@@ -102,7 +102,7 @@ class TioPopupComponent with TioPopupHierarchyElement {
       ..style.zIndex = 2.toString();
 
     _backgroundElement = DivElement()
-      ..style.position = "relative"
+      ..style.position = "absolute"
       ..style.zIndex = 1.toString()
       ..style.pointerEvents = "none";
 
