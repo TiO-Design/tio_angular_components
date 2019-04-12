@@ -228,7 +228,7 @@ class TioPopupComponent with TioPopupHierarchyElement implements OnDestroy {
 
   @override
   void ngOnDestroy() {
-    _popupElement.remove();
+    _popupElement?.remove();
   }
 }
 
