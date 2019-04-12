@@ -14,7 +14,7 @@ import 'package:tio_angular_components/tio_popup/tio_popup_source.dart';
     selector: "tio-popup",
     templateUrl: "tio_popup_component.html",
     styleUrls: ["tio_popup_component.css"])
-class TioPopupComponent with TioPopupHierarchyElement {
+class TioPopupComponent with TioPopupHierarchyElement implements OnDestroy {
   /// The last known size of the viewport.
   ///
   /// The top/left of this [Rectangle] is always (0, 0). A Rectangle returned by
@@ -224,6 +224,11 @@ class TioPopupComponent with TioPopupHierarchyElement {
     _positionedElement
       ..style.top = "${popupRect.top}px"
       ..style.left = "${popupRect.left}px";
+  }
+
+  @override
+  void ngOnDestroy() {
+    _popupElement.remove();
   }
 }
 
