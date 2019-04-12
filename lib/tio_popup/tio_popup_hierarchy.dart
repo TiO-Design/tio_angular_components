@@ -12,10 +12,13 @@ class TioPopupHierarchy {
   StreamSubscription _triggerListener;
   StreamSubscription _keyUpListener;
 
+  var _currentZIndex = 0;
+
   void _attach(TioPopupHierarchyElement child) {
     assert(child != null);
     log.finest("In _attach");
 
+    child.popupElement.style.zIndex = (_currentZIndex++).toString();
     _visiblePopupsStack.add(child);
 
     if (_triggerListener == null) {
@@ -33,6 +36,9 @@ class TioPopupHierarchy {
     if (_visiblePopupsStack.remove(child) && _visiblePopupsStack.isEmpty) {
       _disposeListeners();
     }
+
+    child.popupElement.style.removeProperty("z-index");
+    _currentZIndex--;
   }
 
   void _disposeListeners() {
