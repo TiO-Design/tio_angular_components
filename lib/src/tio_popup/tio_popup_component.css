@@ -1,0 +1,15 @@
+:host {
+  justify-content: flex-start;
+  align-items: flex-start; }
+
+.material-popup-content {
+  min-width: inherit;
+  min-height: inherit;
+  max-width: inherit;
+  max-height: inherit;
+  position: relative;
+  display: flex;
+  flex-direction: column; }
+
+.popup-wrapper {
+  width: 100%; }

@@ -1,0 +1,9 @@
+{
+	"version": 3,
+	"file": "components_popup.css",
+	"sources": [
+		"components_popup.scss"
+	],
+	"names": [],
+	"mappings": "AAGA,AAAA,KAAK,CAAC;EACJ,eAAe,EAAE,UAAU;EAC3B,WAAW,EAAE,UAAU,GACxB;;AAED,AAAA,uBAAuB,CAAC;EACtB,SAAS,EAAE,OAAO;EAClB,UAAU,EAAE,OAAO;EACnB,SAAS,EAAE,OAAO;EAClB,UAAU,EAAE,OAAO;EACnB,QAAQ,EAAE,QAAQ;EAClB,OAAO,EAAE,IAAI;EACb,cAAc,EAAE,MAAM,GACvB;;AAED,AAAA,cAAc,CAAC;EACb,KAAK,EAAE,IAAI,GACZ"
+}

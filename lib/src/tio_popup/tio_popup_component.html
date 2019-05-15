@@ -1,0 +1,45 @@
+<!--
+ Copyright (c) 2016, the Dart project authors.  Please see the AUTHORS file
+ for details. All rights reserved. Use of this source code is governed by a
+ BSD-style license that can be found in the LICENSE file.
+-->
+<template #template>
+  <div [attr.elevation]="z"
+       id="{{uniqueId}}"
+       attr.role="{{role}}"
+       class="popup-wrapper mixin"
+       [class.full-width]="matchMinSourceWidth"
+       [class.ink]="inkBackground"
+       [attr.slide]="slide"
+       [attr.z-index]="zIndex"
+       [style.transform-origin]="transformOrigin"
+       [class.visible]="showPopup">
+      <div class="popup"
+           [style.min-height.px]="minHeight"
+           [style.min-width.px]="minWidth"
+           [style.max-height.px]="maxHeight"
+           [style.max-width.px]="maxWidth">
+          <!-- Focusable placeholder element to handle when user shift-tabs out of the popup we
+               restore focus to the popup source element -->
+          <div class="focusable-placeholder"
+               tabindex="0"
+               (focus)="visible = false"></div>
+          <div class="material-popup-content content">
+              <header>
+                  <ng-content select="[header]"></ng-content>
+              </header>
+              <div class="main">
+                  <ng-content></ng-content>
+              </div>
+              <footer>
+                  <ng-content select="[footer]"></ng-content>
+              </footer>
+          </div>
+          <!-- Focusable placeholder element to handle when user tabs out of the popup we restore
+               focus to the popup source element -->
+          <div class="focusable-placeholder"
+               tabindex="0"
+               (focus)="visible = false"></div>
+      </div>
+  </div>
+</template>
