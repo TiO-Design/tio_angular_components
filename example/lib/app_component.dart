@@ -12,6 +12,8 @@ import 'package:tio_angular_components/tio_angular_components.dart';
 class AppComponent implements OnInit {
   var popup1Visible = false;
 
+
+  final positions = RelativePosition.OffsetPositions;
   @override
   void ngOnInit() {
     Logger.root.level = Level.ALL;

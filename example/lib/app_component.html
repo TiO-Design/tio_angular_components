@@ -1,6 +1,6 @@
 <h1>My First AngularDart App</h1>
 
-<button popupSource #source1="popupSource" (click)="popup1Visible = !popup1Visible">
+<button id="button" popupSource #source1="popupSource" (click)="popup1Visible = !popup1Visible">
     {{ popup1Visible ? "close" : "open" }}
 </button>
 
@@ -23,6 +23,8 @@
     <div background id="background"></div>
 </tio-popup>-->
 
-<tio-popup [(visible)]="popup1Visible" [source]="source1">
+<tio-popup [(visible)]="popup1Visible"
+           [source]="source1"
+           [preferredPositions]="positions" [enforceSpaceConstraints]="true">
     <div class="popup-content">Some fancy content that is super duper fancy</div>
 </tio-popup>

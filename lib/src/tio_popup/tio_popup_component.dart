@@ -7,7 +7,6 @@ import 'dart:html';
 import 'dart:math';
 
 import 'package:angular/angular.dart';
-import 'package:angular_components/laminate/enums/position.dart';
 import 'package:meta/meta.dart';
 import 'package:angular_components/content/deferred_content_aware.dart';
 import 'package:angular_components/focus/focus_interface.dart';
@@ -25,6 +24,8 @@ import 'package:angular_components/utils/async/async.dart';
 import 'package:angular_components/utils/browser/dom_service/angular_2.dart';
 import 'package:angular_components/utils/disposer/disposer.dart';
 import 'package:angular_components/utils/id_generator/id_generator.dart';
+import 'package:tio_angular_components/src/laminate/popup/tio_popup_interface.dart';
+import 'package:tio_angular_components/src/laminate/popup/tio_popup_state.dart';
 
 export 'package:angular_components/laminate/popup/popup.dart'
     show PopupSourceDirective;
@@ -59,7 +60,8 @@ export 'package:angular_components/laminate/popup/popup.dart'
 @Component(
   selector: 'tio-popup',
   providers: [
-    Provider<DeferredContentAware>(DeferredContentAware, useExisting: TioPopupComponent),
+    Provider<DeferredContentAware>(DeferredContentAware,
+        useExisting: TioPopupComponent),
     Provider<DropdownHandle>(DropdownHandle, useExisting: TioPopupComponent),
     Provider<PopupHierarchy>(PopupHierarchy, useFactory: getHierarchy),
     Provider<PopupRef>(PopupRef, useFactory: getResolvedPopupRef),
@@ -68,13 +70,14 @@ export 'package:angular_components/laminate/popup/popup.dart'
   styleUrls: ['tio_popup_component.css'],
   // TODO(google): Change preserveWhitespace to false to improve codesize.
   preserveWhitespace: true,
-  visibility: Visibility.all, // injected by hierarchy
+  visibility: Visibility.all,
+  // injected by hierarchy
   changeDetection: ChangeDetectionStrategy.OnPush,
 )
 class TioPopupComponent
-    with PopupBase, PopupEvents, PopupHierarchyElement
+    with TioPopupBase, PopupEvents, PopupHierarchyElement
     implements
-        PopupInterface,
+        TioPopupInterface,
         DeferredContentAware,
         AfterViewInit,
         OnDestroy,
@@ -169,7 +172,11 @@ class TioPopupComponent
   int z = 2;
 
   /// The CSS transform origin based on configuration.
-  String get transformOrigin => _alignmentPosition?.animationOrigin;
+  String get transformOrigin {
+    var position = _alignmentPosition?.animationOrigin;
+    print(position);
+    return position;
+  }
 
   int get zIndex => _zIndex;
   int _zIndex;
@@ -177,6 +184,7 @@ class TioPopupComponent
 
   /// Direction of popup scaling.
   String _slide;
+
   String get slide => _slide;
 
   /// Direction of popup scaling.
@@ -313,7 +321,7 @@ class TioPopupComponent
   }
 
   @override
-  final PopupState state = PopupState();
+  final state = TioPopupState();
 
   /// The popup pane ID, which is added to the DOM (as pane-id) for testing.
   @HostBinding('attr.pane-id')
@@ -416,7 +424,7 @@ class TioPopupComponent
   /// Open the popup.
   ///
   /// Returns a [Future] which resolves once the popup has started opening.
-  Future<void>  _open() {
+  Future<void> _open() {
     // Avoid duplicate events.
     if (_isOpening) return Future.value();
     _isOpening = true;
@@ -686,11 +694,10 @@ class TioPopupComponent
         _overlayRef.state.left ?? 0, _viewportRect.width);
   }
 
-  Iterable get _preferredPositions {
-    return _flatten(state.preferredPositions).isNotEmpty
-        ? state.preferredPositions
-        : _defaultPreferredPositions;
-  }
+  Iterable<RelativePosition> get _preferredPositions =>
+      state.preferredPositions.isNotEmpty
+          ? state.preferredPositions
+          : _defaultPreferredPositions;
 
   /// Returns the best possible alignment from preferred positions.
   RelativePosition _getBestPosition(
@@ -709,7 +716,7 @@ class TioPopupComponent
     var containerOffset = containerRect.topLeft;
 
     // Try each position, and use the one which overlaps most with the viewport.
-    final positions = _flatten(_preferredPositions) as Iterable<RelativePosition>;
+    final positions = _preferredPositions;
     var bestPosition = positions.first;
     var bestOverlap = 0.0;
     for (var position in positions) {
@@ -869,19 +876,6 @@ Stream<List<T>> _mergeStreams<T>(List<Stream<T>> streams) {
         }
       });
   return streamController.stream;
-}
-
-/// Recursively flattens an arbitrarily-nested iterable.
-//
-// TODO(google): This belongs as a utility not inlined here.
-Iterable _flatten(Iterable nested) sync* {
-  for (var item in nested) {
-    if (item is Iterable) {
-      yield* _flatten(item);
-    } else {
-      yield item;
-    }
-  }
 }
 
 Rectangle _resizeRectangle(Rectangle rect, {num width, num height}) =>
