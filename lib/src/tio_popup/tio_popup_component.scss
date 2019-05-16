@@ -18,21 +18,27 @@
 }
 
 .does-animate {
-  transition: transform 150ms;
-  transform-origin: top left;
-  transform: scale3d(0, 0, 1);
-  will-change: transform;
+  transition: transform 150ms, opacity 150ms;
+  transform-origin: center center;
 
+  // Popup should not be visible when .visible is not set
+  transform: scale3d(0, 0, 1);
+  will-change: transform; // TODO: Remove?
+
+  opacity: 0;
+
+  // Just x should be animated
   &[slide=x] {
     transform: scale3d(0, 1, 1);
   }
 
+  // Just y should be animated
   &[slide=y] {
     transform: scale3d(1, 0, 1);
   }
 
   &.visible {
-    transition: transform 150ms;
+    opacity: 1;
     transform: scale3d(1, 1, 1);
   }
 }

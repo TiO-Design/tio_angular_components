@@ -172,11 +172,7 @@ class TioPopupComponent
   int z = 2;
 
   /// The CSS transform origin based on configuration.
-  String get transformOrigin {
-    var position = _alignmentPosition?.animationOrigin;
-    print(position);
-    return position;
-  }
+  String get transformOrigin => _alignmentPosition?.animationOrigin;
 
   int get zIndex => _zIndex;
   int _zIndex;

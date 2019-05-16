@@ -15,14 +15,15 @@
   width: 100%; }
 
 .does-animate {
-  transition: -webkit-transform 150ms;
-  transition: transform 150ms;
-  transition: transform 150ms, -webkit-transform 150ms;
-  -webkit-transform-origin: top left;
-          transform-origin: top left;
+  transition: opacity 150ms, -webkit-transform 150ms;
+  transition: transform 150ms, opacity 150ms;
+  transition: transform 150ms, opacity 150ms, -webkit-transform 150ms;
+  -webkit-transform-origin: center center;
+          transform-origin: center center;
   -webkit-transform: scale3d(0, 0, 1);
           transform: scale3d(0, 0, 1);
-  will-change: transform; }
+  will-change: transform;
+  opacity: 0; }
   .does-animate[slide=x] {
     -webkit-transform: scale3d(0, 1, 1);
             transform: scale3d(0, 1, 1); }
@@ -30,8 +31,6 @@
     -webkit-transform: scale3d(1, 0, 1);
             transform: scale3d(1, 0, 1); }
   .does-animate.visible {
-    transition: -webkit-transform 150ms;
-    transition: transform 150ms;
-    transition: transform 150ms, -webkit-transform 150ms;
+    opacity: 1;
     -webkit-transform: scale3d(1, 1, 1);
             transform: scale3d(1, 1, 1); }
