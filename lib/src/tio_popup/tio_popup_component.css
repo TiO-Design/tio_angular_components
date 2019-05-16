@@ -13,3 +13,25 @@
 
 .popup-wrapper {
   width: 100%; }
+
+.does-animate {
+  transition: -webkit-transform 150ms;
+  transition: transform 150ms;
+  transition: transform 150ms, -webkit-transform 150ms;
+  -webkit-transform-origin: top left;
+          transform-origin: top left;
+  -webkit-transform: scale3d(0, 0, 1);
+          transform: scale3d(0, 0, 1);
+  will-change: transform; }
+  .does-animate[slide=x] {
+    -webkit-transform: scale3d(0, 1, 1);
+            transform: scale3d(0, 1, 1); }
+  .does-animate[slide=y] {
+    -webkit-transform: scale3d(1, 0, 1);
+            transform: scale3d(1, 0, 1); }
+  .does-animate.visible {
+    transition: -webkit-transform 150ms;
+    transition: transform 150ms;
+    transition: transform 150ms, -webkit-transform 150ms;
+    -webkit-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1); }

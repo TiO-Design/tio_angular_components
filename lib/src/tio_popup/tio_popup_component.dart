@@ -229,9 +229,8 @@ class TioPopupComponent
   ///
   /// This gives the panel a shadow and background color. When it's off, no
   /// animation delayed is applied.
-  // TODO
   @Input()
-  bool hasBox = false;
+  bool doesAnimate = true;
 
   TioPopupComponent(
       @Optional() @SkipSelf() this._hierarchy,
@@ -513,7 +512,7 @@ class TioPopupComponent
     state.source.onOpen();
 
     // TODO
-    if (hasBox) {
+    if (doesAnimate) {
       // If animating, wait until the animation has finished before notifying
       // listeners.
       _animationTimer = Timer(SLIDE_DELAY, () {
@@ -583,7 +582,7 @@ class TioPopupComponent
     // Tell the source that it is closed.
     state.source.onClose();
 
-    if (hasBox) {
+    if (doesAnimate) {
       // If animating, wait until the animation has finished before removing
       // popup contents.
       _animationTimer = Timer(SLIDE_DELAY, () {

@@ -1,6 +1,3 @@
-/// To get proper Material styling, the DOM of the component must have a
-/// `.shadow` element and toggle the class `visible`.
-
 :host {
   justify-content: flex-start;
   align-items: flex-start;
@@ -18,4 +15,24 @@
 
 .popup-wrapper {
   width: 100%;
+}
+
+.does-animate {
+  transition: transform 150ms;
+  transform-origin: top left;
+  transform: scale3d(0, 0, 1);
+  will-change: transform;
+
+  &[slide=x] {
+    transform: scale3d(0, 1, 1);
+  }
+
+  &[slide=y] {
+    transform: scale3d(1, 0, 1);
+  }
+
+  &.visible {
+    transition: transform 150ms;
+    transform: scale3d(1, 1, 1);
+  }
 }
