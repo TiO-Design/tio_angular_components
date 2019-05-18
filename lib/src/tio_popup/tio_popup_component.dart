@@ -225,10 +225,6 @@ class TioPopupComponent
     _matchMinSourceWidth = super.matchMinSourceWidth = value;
   }
 
-  /// Sets the background color of the popup to be ink (`$mat-grey-700`).
-  @Input('ink')
-  bool inkBackground = false;
-
   /// Whether the popup panel has an enclosing box that wraps the content.
   ///
   /// This gives the panel a shadow and background color. When it's off, no
