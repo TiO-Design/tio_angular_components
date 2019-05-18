@@ -1,30 +1,25 @@
 <template #template>
-  <div [attr.elevation]="z"
-       id="{{uniqueId}}"
-       attr.role="{{role}}"
-       class="popup-wrapper"
-       [class.does-animate]="doesAnimate"
-       [class.full-width]="matchMinSourceWidth"
-       [attr.slide]="slide"
-       [attr.z-index]="zIndex"
-       [style.transform-origin]="transformOrigin"
-       [class.visible]="showPopup">
-      <div class="popup"
-           [style.min-height.px]="minHeight"
-           [style.min-width.px]="minWidth"
-           [style.max-height.px]="maxHeight"
-           [style.max-width.px]="maxWidth">
-          <!-- Focusable placeholder element to handle when user shift-tabs out of the popup we
-               restore focus to the popup source element -->
-          <div tabindex="0"
-               (focus)="visible = false"></div>
-          <div class="content">
-                  <ng-content></ng-content>
-          </div>
-          <!-- Focusable placeholder element to handle when user tabs out of the popup we restore
-               focus to the popup source element -->
-          <div tabindex="0"
-               (focus)="visible = false"></div>
-      </div>
-  </div>
+    <div id="{{uniqueId}}"
+         class="popup"
+         [class.does-animate]="doesAnimate"
+         [class.visible]="showPopup"
+         [attr.slide]="slide"
+         [attr.z-index]="zIndex"
+         [attr.elevation]="z"
+         [attr.role]="{{role}}"
+         [style.transform-origin]="transformOrigin"
+         [style.min-height.px]="minHeight"
+         [style.min-width.px]="minWidth"
+         [style.max-height.px]="maxHeight"
+         [style.max-width.px]="maxWidth">
+        <!-- Focusable placeholder element to handle when user shift-tabs out of the popup we
+             restore focus to the popup source element -->
+        <div tabindex="0"
+             (focus)="visible = false"></div>
+        <ng-content></ng-content>
+        <!-- Focusable placeholder element to handle when user tabs out of the popup we restore
+             focus to the popup source element -->
+        <div tabindex="0"
+             (focus)="visible = false"></div>
+    </div>
 </template>

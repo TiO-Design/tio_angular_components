@@ -1,44 +1,28 @@
-:host {
-  justify-content: flex-start;
-  align-items: flex-start;
-}
+.popup {
+  &.does-animate {
+    transition: transform 150ms, opacity 150ms;
+    transform-origin: center center;
 
-.content {
-  min-width: inherit;
-  min-height: inherit;
-  max-width: inherit;
-  max-height: inherit;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-}
+    // Popup should not be visible when .visible is not set
+    transform: scale3d(0, 0, 1);
+    will-change: transform; // TODO: Remove?
 
-.popup-wrapper {
-  width: 100%;
-}
+    opacity: 0;
 
-.does-animate {
-  transition: transform 150ms, opacity 150ms;
-  transform-origin: center center;
+    // Just x should be animated
+    &[slide=x] {
+      transform: scale3d(0, 1, 1);
+    }
 
-  // Popup should not be visible when .visible is not set
-  transform: scale3d(0, 0, 1);
-  will-change: transform; // TODO: Remove?
+    // Just y should be animated
+    &[slide=y] {
+      transform: scale3d(1, 0, 1);
+    }
 
-  opacity: 0;
-
-  // Just x should be animated
-  &[slide=x] {
-    transform: scale3d(0, 1, 1);
-  }
-
-  // Just y should be animated
-  &[slide=y] {
-    transform: scale3d(1, 0, 1);
-  }
-
-  &.visible {
-    opacity: 1;
-    transform: scale3d(1, 1, 1);
+    &.visible {
+      opacity: 1;
+      transform: scale3d(1, 1, 1);
+    }
   }
 }
+
