@@ -85,8 +85,6 @@ class TioPopupComponent
   @Input()
   Duration animationDuration = Duration(milliseconds: 150);
 
-  @HostBinding("style.--animation-duration")
-  String get animationDurationStyle => "${animationDuration.inMilliseconds}ms";
   Duration get SLIDE_DELAY => animationDuration;
 
   /// Stream on which an event is fired after the popup has finished opening.
