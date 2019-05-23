@@ -82,7 +82,12 @@ class TioPopupComponent
         AfterViewInit,
         OnDestroy,
         DropdownHandle {
-  static const Duration SLIDE_DELAY = Duration(milliseconds: 150);
+  @Input()
+  Duration animationDuration = Duration(milliseconds: 150);
+
+  @HostBinding("style.--animation-duration")
+  String get animationDurationStyle => "${animationDuration.inMilliseconds}ms";
+  Duration get SLIDE_DELAY => animationDuration;
 
   /// Stream on which an event is fired after the popup has finished opening.
   @Output('opened')
@@ -511,7 +516,7 @@ class TioPopupComponent
     // Tell the source that it is open.
     state.source.onOpen();
 
-    // TODO
+    // TODO: Don´t use hardcoded animation length.
     if (doesAnimate) {
       // If animating, wait until the animation has finished before notifying
       // listeners.

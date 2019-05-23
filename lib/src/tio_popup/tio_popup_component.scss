@@ -1,6 +1,6 @@
 .popup {
   &.does-animate {
-    transition: transform 150ms, opacity 150ms;
+    transition: transform var(--animation-duration), opacity var(--animation-duration);
     transform-origin: center center;
 
     // Popup should not be visible when .visible is not set
