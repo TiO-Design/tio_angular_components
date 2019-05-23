@@ -84,6 +84,7 @@ class TioPopupComponent
         DropdownHandle {
   @Input()
   Duration animationDuration = Duration(milliseconds: 150);
+  String get animationDurationStyle => "${animationDuration.inMilliseconds}ms";
 
   Duration get SLIDE_DELAY => animationDuration;
 
