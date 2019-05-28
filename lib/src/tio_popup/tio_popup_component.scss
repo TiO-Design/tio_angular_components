@@ -5,7 +5,6 @@
 
     // Popup should not be visible when .visible is not set
     transform: scale3d(0, 0, 1);
-    will-change: transform; // TODO: Remove?
 
     opacity: 0;
 

@@ -1,7 +1,3 @@
-// Copyright (c) 2016, the Dart project authors.  Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
-
 import 'dart:async';
 import 'dart:html';
 import 'dart:math';
@@ -30,7 +26,7 @@ import 'package:tio_angular_components/src/laminate/popup/tio_popup_state.dart';
 export 'package:angular_components/laminate/popup/popup.dart'
     show PopupSourceDirective;
 
-/// A popup component with material design look-and-feel.
+/// A popup component.
 ///
 /// Caveats:
 /// - Popups closing and opening are automatically delayed to add animations
@@ -41,7 +37,7 @@ export 'package:angular_components/laminate/popup/popup.dart'
 /// - If the contents change and need to readjust position use
 ///  [trackLayoutChanges] which is also defined in [PopupInterface].
 ///
-/// Material popup also supports deferred/lazy-loaded content.
+/// The popup also supports deferred/lazy-loaded content.
 ///
 /// This component publishes itself as a [DropdownHandle], so its children may
 /// control its visibility by injecting it:
@@ -68,8 +64,6 @@ export 'package:angular_components/laminate/popup/popup.dart'
   ],
   templateUrl: 'tio_popup_component.html',
   styleUrls: ['tio_popup_component.css'],
-  // TODO(google): Change preserveWhitespace to false to improve codesize.
-  preserveWhitespace: true,
   visibility: Visibility.all,
   // injected by hierarchy
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -515,7 +509,6 @@ class TioPopupComponent
     // Tell the source that it is open.
     state.source.onOpen();
 
-    // TODO: Don´t use hardcoded animation length.
     if (doesAnimate) {
       // If animating, wait until the animation has finished before notifying
       // listeners.
