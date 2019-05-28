@@ -1,0 +1,27 @@
+<template #template>
+    <div id="{{uniqueId}}"
+         class="popup"
+         [class.does-animate]="doesAnimate"
+         [class.visible]="showPopup"
+         [attr.slide]="slide"
+         [attr.z-index]="zIndex"
+         [attr.elevation]="z"
+         [attr.role]="role"
+         [style.transform-origin]="transformOrigin"
+         [style.min-height.px]="minHeight"
+         [style.min-width.px]="minWidth"
+         [style.max-height.px]="maxHeight"
+         [style.max-width.px]="maxWidth"
+         [style.--animation-duration]="animationDurationStyle">
+        <!-- TODO: What does the focusable stuff even do? -->
+        <!-- Focusable placeholder element to handle when user shift-tabs out of the popup we
+             restore focus to the popup source element -->
+        <div tabindex="0"
+             (focus)="visible = false"></div>
+        <ng-content></ng-content>
+        <!-- Focusable placeholder element to handle when user tabs out of the popup we restore
+             focus to the popup source element -->
+        <div tabindex="0"
+             (focus)="visible = false"></div>
+    </div>
+</template>
