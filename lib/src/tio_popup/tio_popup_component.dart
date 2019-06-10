@@ -20,6 +20,7 @@ import 'package:angular_components/utils/async/async.dart';
 import 'package:angular_components/utils/browser/dom_service/angular_2.dart';
 import 'package:angular_components/utils/disposer/disposer.dart';
 import 'package:angular_components/utils/id_generator/id_generator.dart';
+import 'package:tio_angular_components/src/laminate/popup/tio_popup_hierarchy.dart';
 import 'package:tio_angular_components/src/laminate/popup/tio_popup_interface.dart';
 import 'package:tio_angular_components/src/laminate/popup/tio_popup_state.dart';
 
@@ -59,7 +60,7 @@ export 'package:angular_components/laminate/popup/popup.dart'
     Provider<DeferredContentAware>(DeferredContentAware,
         useExisting: TioPopupComponent),
     Provider<DropdownHandle>(DropdownHandle, useExisting: TioPopupComponent),
-    Provider<PopupHierarchy>(PopupHierarchy, useFactory: getHierarchy),
+    Provider<TioPopupHierarchy>(TioPopupHierarchy, useFactory: getHierarchy),
     Provider<PopupRef>(PopupRef, useFactory: getResolvedPopupRef),
   ],
   templateUrl: 'tio_popup_component.html',
@@ -69,7 +70,7 @@ export 'package:angular_components/laminate/popup/popup.dart'
   changeDetection: ChangeDetectionStrategy.OnPush,
 )
 class TioPopupComponent
-    with TioPopupBase, PopupEvents, PopupHierarchyElement
+    with TioPopupBase, PopupEvents, TioPopupHierarchyElement
     implements
         TioPopupInterface,
         DeferredContentAware,
@@ -104,7 +105,7 @@ class TioPopupComponent
   final NgZone _ngZone;
   final OverlayService _overlayService;
   final DomService _domService;
-  PopupHierarchy _hierarchy;
+  TioPopupHierarchy _hierarchy;
 
   final List<RelativePosition> _defaultPreferredPositions;
   RelativePosition _alignmentPosition;
@@ -115,9 +116,8 @@ class TioPopupComponent
 
   OverlayRef _overlayRef;
 
-  // Needed to implement the PopupHierarchyElement interface.
-  @override
-  final ElementRef elementRef;
+  /// This popup component element.
+  final Element element;
 
   final String role;
   static final _idGenerator = SequentialIdGenerator.fromUUID();
@@ -243,7 +243,7 @@ class TioPopupComponent
       @Optional() this._popupSizeProvider,
       this._changeDetector,
       this._viewContainer,
-      this.elementRef)
+      this.element)
       : this.role = role ?? 'dialog' {
     // Close popup if parent closes.
     if (parentPopup != null) {
@@ -279,8 +279,8 @@ class TioPopupComponent
   Stream<bool> get contentVisible => _onContentVisible.stream.distinct();
 
   /// The popup visible hierarchy.
-  PopupHierarchy get hierarchy {
-    _hierarchy = _hierarchy ?? PopupHierarchy();
+  TioPopupHierarchy get hierarchy {
+    _hierarchy = _hierarchy ?? TioPopupHierarchy();
     return _hierarchy;
   }
 
@@ -292,7 +292,7 @@ class TioPopupComponent
   void _updateOverlayCssClass() {
     if (_overlayRef == null) return;
     // Copy host CSS classes for integration with Angular CSS shimming.
-    var hostClassName = elementRef.nativeElement.className as String;
+    var hostClassName = element.className;
     _overlayRef.overlayElement.className += ' $hostClassName';
   }
 
@@ -805,7 +805,7 @@ class TioPopupComponent
 }
 
 @Injectable()
-PopupHierarchy getHierarchy(TioPopupComponent c) => c.hierarchy;
+TioPopupHierarchy getHierarchy(TioPopupComponent c) => c.hierarchy;
 
 @Injectable()
 PopupRef getResolvedPopupRef(TioPopupComponent c) => c._resolvedPopupRef;
