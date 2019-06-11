@@ -25,7 +25,7 @@ class TioPopupHierarchy {
   /// Closes every popup element present in the hierarchy.
   void closeHierarchy() {
     for (var popup in _visiblePopupStack) {
-      popup.onDismiss();
+      popup.handleDismissed();
     }
 
     _visiblePopupStack.clear();
@@ -101,7 +101,7 @@ class TioPopupHierarchy {
         if (events.isParentOf(blockerElement, event.target as Node)) return;
       }
 
-      if (current.autoDismiss) current.onAutoDismiss(event);
+      if (current.autoDismiss) current.handleAutoDismissed(event);
     }
   }
 
@@ -118,7 +118,7 @@ class TioPopupHierarchy {
       final current = _visiblePopupStack.last;
       if (current?.container != null) {
         event.stopPropagation();
-        current.onDismiss();
+        current.handleDismissed();
       }
     }
   }
@@ -144,7 +144,11 @@ abstract class TioPopupHierarchyElement {
 
   void detachFromVisibleHierarchy() => hierarchy._detach(this);
 
-  void onAutoDismiss(Event event) => onDismiss();
+  /// Gets called when the user clicks outside of the component.
+  void handleAutoDismissed(Event event) => handleDismissed();
 
-  void onDismiss();
+  /// Gets called when the popup gets dismissed.
+  /// Could be due to the user pressing ESC
+  /// or clicking outside of the component.
+  void handleDismissed();
 }

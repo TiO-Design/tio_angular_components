@@ -79,6 +79,7 @@ class TioPopupComponent
         DropdownHandle {
   @Input()
   Duration animationDuration = Duration(milliseconds: 150);
+
   String get animationDurationStyle => "${animationDuration.inMilliseconds}ms";
 
   Duration get SLIDE_DELAY => animationDuration;
@@ -96,8 +97,11 @@ class TioPopupComponent
   /// Output event should be either a [FocusEvent] or a [MouseEvent].
   @Output('autoDismissed')
   Stream<Event> get onAutoDismissed => _onAutoDismissed.stream;
-  final StreamController<Event> _onAutoDismissed =
-      StreamController<Event>.broadcast(sync: true);
+  final _onAutoDismissed = StreamController<Event>.broadcast(sync: true);
+
+  @Output('dismiss')
+  Stream<void> get onDismissed => _onDismissed.stream;
+  final _onDismissed = StreamController<void>.broadcast();
 
   final ChangeDetectorRef _changeDetector;
   final ViewContainerRef _viewContainer;
@@ -401,12 +405,13 @@ class TioPopupComponent
   }
 
   @override
-  void onDismiss() {
+  void handleDismissed() {
     close();
+    _onDismissed.add(null);
   }
 
   @override
-  void onAutoDismiss(Event event) {
+  void handleAutoDismissed(Event event) {
     close();
     _onAutoDismissed.add(event);
   }
