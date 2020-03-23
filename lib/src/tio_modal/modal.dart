@@ -145,8 +145,8 @@ abstract class Modal {
 @Component(
   selector: 'tio-modal',
   providers: [
-    ExistingProvider<Object>(DeferredContentAware, ModalComponent),
-    ExistingProvider<Object>(Modal, ModalComponent),
+    ExistingProvider<Object>(DeferredContentAware, TioModalComponent),
+    ExistingProvider<Object>(Modal, TioModalComponent),
   ],
   directives: [ModalControllerDirective],
   styleUrls: ["modal.css"],
@@ -160,7 +160,7 @@ abstract class Modal {
   preserveWhitespace: true,
   visibility: Visibility.all, // Injected by dialog, et al.
 )
-class ModalComponent
+class TioModalComponent
     implements DeferredContentAware, Modal, AfterViewInit, OnDestroy {
   final Element _element;
   final Modal _parentModal;
@@ -197,7 +197,7 @@ class ModalComponent
   Future<bool> _pendingOpen;
   Future<bool> _pendingClose;
 
-  ModalComponent(OverlayService overlayService, this._element, this._domService,
+  TioModalComponent(OverlayService overlayService, this._element, this._domService,
       @Optional() @SkipSelf() this._parentModal, @Optional() this._stack)
       : _resolvedOverlayRef =
             overlayService.createOverlayRefSync(OverlayState.Dialog) {
