@@ -251,12 +251,11 @@ class TioModalComponent
   @HostBinding('attr.pane-id')
   String get uniquePaneId => _resolvedOverlayRef?.uniqueId;
 
-  @HostBinding('style.background-color')
-  String get hasNoBackgroundStyle =>
-      hasNoBackground ? 'transparent!important' : null;
-
   @Input()
-  bool hasNoBackground = false;
+  set hasNoBackground(bool value) => value
+      ? resolvedOverlayRef.overlayElement.style
+          .setProperty("background-color", "transparent")
+      : () {}();
 
   // Make the overlay hosting this modal visible.
   //
