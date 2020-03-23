@@ -149,7 +149,6 @@ abstract class Modal {
     ExistingProvider<Object>(Modal, TioModalComponent),
   ],
   directives: [ModalControllerDirective],
-  styleUrls: ["modal.css"],
   template: r'''
     <template [modalController]="resolvedOverlayRef">
       <ng-content></ng-content>
