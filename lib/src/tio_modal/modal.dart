@@ -143,7 +143,7 @@ abstract class Modal {
 /// - `visible` -- Set in order to change visibility. This will trigger an open
 ///                and close interaction cycle that allows users to cancel.
 @Component(
-  selector: 'modal',
+  selector: 'tio-modal',
   providers: [
     ExistingProvider<Object>(DeferredContentAware, ModalComponent),
     ExistingProvider<Object>(Modal, ModalComponent),
