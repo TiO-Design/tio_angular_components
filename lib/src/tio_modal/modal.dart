@@ -197,8 +197,12 @@ class TioModalComponent
   Future<bool> _pendingOpen;
   Future<bool> _pendingClose;
 
-  TioModalComponent(OverlayService overlayService, this._element, this._domService,
-      @Optional() @SkipSelf() this._parentModal, @Optional() this._stack)
+  TioModalComponent(
+      OverlayService overlayService,
+      this._element,
+      this._domService,
+      @Optional() @SkipSelf() this._parentModal,
+      @Optional() this._stack)
       : _resolvedOverlayRef =
             overlayService.createOverlayRefSync(OverlayState.Dialog) {
     _disposer
@@ -247,7 +251,10 @@ class TioModalComponent
   @HostBinding('attr.pane-id')
   String get uniquePaneId => _resolvedOverlayRef?.uniqueId;
 
-  @HostBinding('class.has-no-background')
+  @HostBinding('style.background-color')
+  String get hasNoBackgroundStyle =>
+      hasNoBackground ? 'transparent!important' : null;
+
   @Input()
   bool hasNoBackground = false;
 
