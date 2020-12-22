@@ -23,7 +23,7 @@ import 'package:angular_components/utils/disposer/disposer.dart';
 /// **NOTE**: Usage of this removes [Modal]'s built in LIFO stack.
 @Injectable()
 class GlobalModalStack {
-  final List<Modal> _stack = List<Modal>();
+  final _stack = <Modal>[];
 
   /// Size of the stack.
   int get length => _stack.length;
@@ -253,7 +253,7 @@ class TioModalComponent
   @Input()
   set hasNoBackground(bool value) => value
       ? resolvedOverlayRef.overlayElement.style
-          .setProperty("background-color", "transparent")
+          .setProperty('background-color', 'transparent')
       : () {}();
 
   // Make the overlay hosting this modal visible.

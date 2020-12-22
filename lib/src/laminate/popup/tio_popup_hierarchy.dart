@@ -39,13 +39,8 @@ class TioPopupHierarchy {
     }
     _visiblePopupStack.add(child);
 
-    if (_triggerListener == null) {
-      // Passing null to triggersOutside listens to triggers on any elements.
-      _triggerListener = events.triggersOutside(null).listen(_onTrigger);
-    }
-    if (_keyUpListener == null) {
-      _keyUpListener = document.onKeyUp.listen(_onKeyUp);
-    }
+    _triggerListener ??= events.triggersOutside(null).listen(_onTrigger);
+    _keyUpListener ??= document.onKeyUp.listen(_onKeyUp);
   }
 
   void _disposeListeners() {
@@ -91,7 +86,7 @@ class TioPopupHierarchy {
 
     if (_isInHiddenModal()) return;
 
-    for (int i = _visiblePopupStack.length - 1; i >= 0; i--) {
+    for (var i = _visiblePopupStack.length - 1; i >= 0; i--) {
       final current = _visiblePopupStack[i];
       if (current?.container == null) continue;
 
